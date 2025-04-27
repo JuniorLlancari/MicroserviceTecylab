@@ -28,4 +28,7 @@ app.UseCustomExceptionHandler();
 
 app.MapControllers();
 
+app.UseAuthentication();
+app.UseAuthorization();
+
 app.Run();

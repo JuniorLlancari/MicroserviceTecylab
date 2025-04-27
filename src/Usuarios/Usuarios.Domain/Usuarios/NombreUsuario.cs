@@ -3,6 +3,8 @@ namespace Usuarios.Domain.Usuarios;
 public record NombreUsuario{
 
     public string Value { get; init; }
+    
+    public static implicit operator string(NombreUsuario nombre) => nombre.Value;
 
     public NombreUsuario(string _value)
     {

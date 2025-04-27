@@ -6,10 +6,9 @@ namespace Usuarios.Domain.Usuarios;
 
 public class Usuario : Entity
 {
-    private Usuario()
-    {
-        
-    }
+
+    public Usuario() { }
+
     private Usuario(
           Guid id
         , NombreUsuario? nombreUsuario
@@ -44,14 +43,14 @@ public class Usuario : Entity
     public Password? Password { get; private set; }
     public DateTime? FechaNacimiento { get; private set; }
     public CorreoElectronico? CorreoElectronico { get; private set; }
-    public Direccion? Direccion {get; private set;}
+    public Direccion? Direccion { get; private set; }
     public UsuarioEstado Estado { get; private set; }
     public DateTime FechaUltimoCambio { get; private set; }
     public Guid? RolId { get; private set; }
     public Rol? Rol { get; private set; }
 
 
-    public static Usuario Create(  
+    public static Usuario Create(
           ApellidoPaterno apellidoPaterno
         , ApellidoMaterno apellidoMaterno
         , NombresPersona nombresPersona
@@ -62,10 +61,11 @@ public class Usuario : Entity
         , Direccion? direccion
         , DateTime fechaUltimoCambio
         , NombreUsuarioService nombreUsuarioService
-        ){
+        )
+    {
 
-        var nombreUsuario = nombreUsuarioService.GenerarNombreUsuario(apellidoPaterno,nombresPersona);
-        
+        var nombreUsuario = nombreUsuarioService.GenerarNombreUsuario(apellidoPaterno, nombresPersona);
+
         var usuario = new Usuario(
             Guid.NewGuid(),
             nombreUsuario,
@@ -73,11 +73,11 @@ public class Usuario : Entity
             apellidoMaterno,
             nombresPersona,
             rolId,
-            password,//DateTime.UtcNow,
+            password,
             fechaNacimiento,
             correoElectronico,
             direccion,
-            UsuarioEstado.Activo,//DateTime.UtcNow
+            UsuarioEstado.Activo,
             fechaUltimoCambio
         );
 

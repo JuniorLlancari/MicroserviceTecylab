@@ -22,5 +22,6 @@ if (app.Environment.IsDevelopment())
 
 app.UseCustomExceptionHandler();
 app.MapControllers();
-
+app.UseAuthentication();
+app.UseAuthorization();
 app.Run();

@@ -1,4 +1,4 @@
-namespace Docentes.Application.services;
+namespace Docentes.Application.Services;
 
 public interface IUsuarioService
 {

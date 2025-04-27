@@ -1,0 +1,22 @@
+FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
+WORKDIR /app
+EXPOSE 9070
+ 
+FROM mcr.microsoft.com/dotnet/sdk:8.0.101 AS build
+ARG configuration=Release
+WORKDIR /src
+COPY ["Usuarios/Usuarios.Api/Usuarios.Api.csproj", "Usuarios/Usuarios.Api/"]
+RUN dotnet restore "Usuarios/Usuarios.Api/Usuarios.Api.csproj"
+COPY . .
+WORKDIR "/src/Usuarios/Usuarios.Api"
+RUN dotnet build "./Usuarios.Api.csproj" -c $configuration -o /app/build
+
+FROM build AS publish
+ARG configuration=Release
+RUN dotnet publish "./Usuarios.Api.csproj" -c $configuration -o /app/publish /p:UseAppHost=false
+
+FROM base AS final
+WORKDIR /app
+COPY --from=publish /app/publish .
+
+ENTRYPOINT ["dotnet", "Usuarios.Api.dll"]

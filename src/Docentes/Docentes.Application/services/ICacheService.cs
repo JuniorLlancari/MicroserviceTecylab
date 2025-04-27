@@ -1,8 +1,8 @@
-namespace Docentes.Application.services;
+namespace Docentes.Application.Services;
 
 public interface ICacheService
 {
     Task<T?> GetCacheValueAsync<T>(string key);
 
-    Task SetCacheValueAsync<T>(string key, T value, TimeSpan? expirationTime = null );
+    Task SetCacheValueAsync<T>(string key, T value, TimeSpan? expirationTime = null);
 }

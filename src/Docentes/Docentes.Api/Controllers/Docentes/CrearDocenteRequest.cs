@@ -1,7 +1,11 @@
-namespace Docentes.api.Controllers.Docentes;
+namespace Docentes.Api.Controllers.Docentes;
 
-public record CrearDocenteRequest 
+public record CrearDocenteRequest
 (
-    Guid UsuarioId,
-    Guid EspecialidadId
+     Guid EspecialidadId
+    , string Nombres
+    , string ApellidoPaterno
+    , string ApellidoMaterno
+    , DateTime FechaNacimiento
+    , string CorreoElectronico
 );

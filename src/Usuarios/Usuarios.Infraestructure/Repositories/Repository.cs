@@ -19,10 +19,10 @@ where T : Entity
     )
     {
         return await dbContext.Set<T>()
-        .FirstOrDefaultAsync( entity => entity.Id == id, cancellationToken);
+        .FirstOrDefaultAsync(entity => entity.Id == id, cancellationToken);
     }
 
-    public async Task<List<T?>> ListAsync(
+    public async Task<List<T>> ListAsync(
         CancellationToken cancellationToken
     )
     {
@@ -37,6 +37,11 @@ where T : Entity
     public void Update(T entity)
     {
         dbContext.Update(entity);
+    }
+
+    public void Delete(T entity)
+    {
+        dbContext.Remove(entity);
     }
 
 

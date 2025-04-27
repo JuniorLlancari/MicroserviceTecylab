@@ -1,4 +1,4 @@
-using Docentes.Application.services;
+using Docentes.Application.Services;
 
 namespace Docentes.Infrastructure.services;
 
@@ -13,7 +13,7 @@ public class CursoService : ICursosService
 
     public async Task<bool> CursoExistsAsync(Guid cursoId, CancellationToken cancellationToken)
     {
-        var response = await _httpClient.GetAsync($"cursos/{cursoId}",cancellationToken);
+        var response = await _httpClient.GetAsync($"cursos/{cursoId}", cancellationToken);
         return response.IsSuccessStatusCode;
     }
 }

@@ -1,0 +1,58 @@
+version: '3.4'
+
+services:
+
+  distributedcache:
+    container_name: distributedcache
+    restart: always
+    ports:
+      - "6379:6379"
+
+  usuarios.api:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_HTTP_PORTS=9070
+      - ConnectionStrings__Database=Server=ep-tight-haze-a4q56v3a.us-east-1.aws.neon.tech;Port=5432;Database=user;Username=user_owner;Password=XA3eDZCd6vxu;
+      - UrlRabbit=amqps://byxwzimz:ry1EgsxXA_Vuiiu14Z29Hv71iLcweZQm@gull.rmq.cloudamqp.com/byxwzimz
+
+    ports:
+      - "9070:9070"
+    depends_on:
+      - messagebroker
+  cursos.api:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_HTTP_PORTS=9080
+      - MongoDbSettings__ConnectionString=mongodb+srv://user_cloud:lLkcqYqwWfVVjZ0M@clusterdemo.amsph.mongodb.net/?retryWrites=true&w=majority&appName=ClusterDemo
+      - MongoDbSettings__DatabaseName=CursosDb
+    ports:
+      - "9080:9080"
+
+  docentes.api:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_HTTP_PORTS=9090
+      - ConnectionStrings__Database=Server=ep-tight-haze-a4q56v3a.us-east-1.aws.neon.tech;Port=5432;Database=docentes;Username=user_owner;Password=XA3eDZCd6vxu;
+      - ConnectionStrings__Redis=distributedcache:6379
+      - UsuarioApiBaseUrl=http://usuarios.api:9070
+      - CursosApiBaseUrl=http://cursos.api:9080
+      - UrlRabbit=amqps://byxwzimz:ry1EgsxXA_Vuiiu14Z29Hv71iLcweZQm@gull.rmq.cloudamqp.com/byxwzimz
+
+    depends_on:
+      - cursos.api
+      - usuarios.api
+      - distributedcache
+      - messagebroker
+    ports:
+      - "9090:9090"
+
+  messagebroker:
+    container_name: messagebroker
+    hostname: ecommerce-mq
+    environment:
+      - RABBITMQ_DEFAULT_USER=guest
+      - RABBITMQ_DEFAULT_PASS=guest
+    restart: always
+    ports:
+      - "5672:5672"
+      - "15672:15672"

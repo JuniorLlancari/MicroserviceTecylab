@@ -12,9 +12,12 @@ public record CorreoElectronico
         Value = value;
     }
 
+    public static implicit operator string(CorreoElectronico d) => d.Value;
+
+
     public static Result<CorreoElectronico> Create(string _value)
     {
-        if(EsCorreoValido(_value))
+        if (EsCorreoValido(_value))
         {
             return new CorreoElectronico(_value);
         }
@@ -24,14 +27,14 @@ public record CorreoElectronico
     private static bool EsCorreoValido(string correo)
     {
         const string emailRegex = @"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$";
-        if(string.IsNullOrEmpty(correo))
+        if (string.IsNullOrEmpty(correo))
         {
             return false;
         }
 
         var esCorrecto = Regex.Match(correo, emailRegex).Success;
 
-        if(esCorrecto)
+        if (esCorrecto)
         {
             return true;
         }

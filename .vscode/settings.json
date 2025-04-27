@@ -1,0 +1,7 @@
+{
+    "csharpextensions.useFileScopedNamespace": true,
+    "files.exclude": {
+        "**/bin": true,
+        "**/obj": true
+    }
+}

@@ -9,15 +9,10 @@ internal sealed class RolRepository : Repository<Rol>, IRolRepository
     {
     }
 
-    public async Task<Rol?> GetByNameAsync(string rolName, CancellationToken cancellationToken = default)
+    public async Task<Rol?> GetByNameAsync(string rol, CancellationToken cancellationToken = default)
     {
-        //  return await dbContext.Set<Rol>().FirstOrDefaultAsync(
-        //     rol => rol.NombreRol.Equals(rolName) , cancellationToken
-        //  );
-
         return await dbContext.Set<Rol>().FirstOrDefaultAsync(
-        rol => rol.NombreRol == rolName, cancellationToken
+            rol => rol.Equals(rol), cancellationToken
         );
-
     }
 }

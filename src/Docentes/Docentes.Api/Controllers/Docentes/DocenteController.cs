@@ -3,13 +3,13 @@ using Docentes.Application.Docentes.GetDocente;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Docentes.api.Controllers.Docentes;
+namespace Docentes.Api.Controllers.Docentes;
 
 [ApiController]
 [Route("api/docente")]
-public class DocenteController  : ControllerBase
+public class DocenteController : ControllerBase
 {
-      private readonly ISender _sender;
+    private readonly ISender _sender;
 
     public DocenteController(ISender sender)
     {
@@ -23,7 +23,7 @@ public class DocenteController  : ControllerBase
     )
     {
         var query = new GetDocenteQuery(id);
-        var resultado = await _sender.Send(query,cancellationToken);
+        var resultado = await _sender.Send(query, cancellationToken);
         return resultado.IsSuccess ? Ok(resultado) : NotFound();
     }
 
@@ -35,16 +35,21 @@ public class DocenteController  : ControllerBase
     {
         var command = new CrearDocenteCommand
         (
-            request.UsuarioId,
-            request.EspecialidadId
+            request.EspecialidadId,
+            request.Nombres,
+            request.ApellidoPaterno,
+            request.ApellidoMaterno,
+            request.FechaNacimiento,
+            request.CorreoElectronico
         );
 
-        var resultado = await _sender.Send(command,cancellationToken);
+        var resultado = await _sender.Send(command, cancellationToken);
 
         if (resultado.IsSuccess)
         {
-            return CreatedAtAction(nameof(ObtenerDocente), new { id = resultado.Value } , resultado.Value );
+            return CreatedAtAction(nameof(ObtenerDocente), new { id = resultado.Value }, resultado.Value);
         }
         return BadRequest(resultado.Error);
     }
+
 }

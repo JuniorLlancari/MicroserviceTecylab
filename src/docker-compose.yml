@@ -1,0 +1,23 @@
+version: '3.4'
+
+services:
+  distributedcache:
+    image: redis
+
+  usuarios.api:
+    image: ${DOCKER_REGISTRY-}usuarios
+    build:
+      context: .
+      dockerfile: Usuarios/Usuarios.API/Dockerfile
+  cursos.api:
+    image: ${DOCKER_REGISTRY-}cursos
+    build:
+      context: .
+      dockerfile: Cursos/Cursos.API/Dockerfile
+  docentes.api:
+    image: ${DOCKER_REGISTRY-}docentes
+    build:
+      context: .
+      dockerfile: Docentes/Docentes.API/Dockerfile
+  messagebroker:
+    image: rabbitmq:3-management

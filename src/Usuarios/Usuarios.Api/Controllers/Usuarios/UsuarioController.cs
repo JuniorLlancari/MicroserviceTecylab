@@ -1,5 +1,7 @@
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Usuarios.Application.Jwt;
 using Usuarios.Application.Usuarios.CrearUsuario;
 using Usuarios.Application.Usuarios.GetUsuario;
 
@@ -11,11 +13,15 @@ public class UsuarioController : ControllerBase
 {
     private readonly ISender _sender;
 
-    public UsuarioController(ISender sender)
+    private readonly IAutorizationService _autorizationService;
+
+    public UsuarioController(ISender sender, IAutorizationService autorizationService)
     {
         _sender = sender;
+        _autorizationService = autorizationService;
     }
 
+    [Authorize]
     [HttpGet("{id}")]
     public async Task<IActionResult> ObtenerUsuario(
         Guid id,
@@ -59,4 +65,18 @@ public class UsuarioController : ControllerBase
 
     }
 
+    [HttpPost]
+    [Route("Autenticar")]
+    public async Task<IActionResult> Autenticar(
+        AutorizacionRequest autorizacion,
+        CancellationToken cancellationToken
+    )
+    {
+        var resultado = await _autorizationService.DevolverToken(autorizacion,cancellationToken);
+        if (resultado == null)
+        {
+            return Unauthorized();
+        }
+        return Ok(resultado);
+    }
 }

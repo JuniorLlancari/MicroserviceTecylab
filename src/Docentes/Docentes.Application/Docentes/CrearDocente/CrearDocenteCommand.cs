@@ -4,6 +4,10 @@ namespace Docentes.Application.Docentes.CrearDocente;
 
 public record CrearDocenteCommand
 (
-    Guid usuarioId,
-    Guid especialidadId
-) : ICommand<Guid> ;
+     Guid EspecialidadId
+    , string Nombres
+    , string ApellidoPaterno
+    , string ApellidoMaterno
+    , DateTime FechaNacimiento
+    , string CorreoElectronico
+) : ICommand<string>;
